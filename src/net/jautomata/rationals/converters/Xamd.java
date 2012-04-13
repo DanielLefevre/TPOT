@@ -1,11 +1,10 @@
-package net.jautomata.rationals.converters;
+package rationals.converters;
 
 import java.util.Iterator;
 
-import net.jautomata.rationals.Automaton;
-import net.jautomata.rationals.State;
-import net.jautomata.rationals.Transition;
-
+import rationals.Automaton;
+import rationals.State;
+import rationals.Transition;
 
 public class Xamd implements ToString {
   public String toString(Automaton a) {

@@ -1,4 +1,4 @@
-package net.jautomata.rationals.converters.algorithms;
+package rationals.converters.algorithms;
 
 public class Coord {
 	public double x, y;

@@ -33,7 +33,7 @@
  * Created on 31 mai 2005
  *
  */
-package net.jautomata.rationals.converters;
+package rationals.converters;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,10 +42,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Iterator;
 
-import net.jautomata.rationals.Automaton;
-import net.jautomata.rationals.State;
-import net.jautomata.rationals.Transition;
-
+import rationals.Automaton;
+import rationals.State;
+import rationals.Transition;
 
 /**
  * Input/output an automaton in DOT format.

@@ -33,7 +33,7 @@
  * Created on 29 mars 2005
  *
  */
-package net.jautomata.rationals.converters;
+package rationals.converters;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,14 +41,13 @@ import java.io.OutputStream;
 
 import javax.xml.parsers.SAXParserFactory;
 
-import net.jautomata.rationals.Automaton;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import rationals.Automaton;
 
 /**
  * Encode/decode an Automaton according to an XML format. <![CDATA[ <!ELEMENT

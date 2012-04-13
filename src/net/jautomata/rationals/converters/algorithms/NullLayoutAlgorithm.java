@@ -1,11 +1,10 @@
-package net.jautomata.rationals.converters.algorithms;
+package rationals.converters.algorithms;
 
 import java.util.Iterator;
 
-import net.jautomata.rationals.Automaton;
-import net.jautomata.rationals.State;
-import net.jautomata.rationals.converters.ConverterException;
-
+import rationals.Automaton;
+import rationals.State;
+import rationals.converters.ConverterException;
 
 /**
  * This layout algorithm basically performs nothing.
@@ -22,7 +21,7 @@ public final class NullLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	 * The layout initializes a private Map from coordinates to state
 	 * where all coordinates are set to (0,0)
 	 * 
-	 * @see net.jautomata.rationals.converters.algorithms.LayoutAlgorithm#layout(Automaton)
+	 * @see rationals.converters.algorithms.LayoutAlgorithm#layout(Automaton)
 	 */
 	public void layout(Automaton aut) throws ConverterException {
 		automata = aut;
@@ -37,7 +36,7 @@ public final class NullLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	/**
 	 * This methods does nothing
 	 * 
-	 * @see net.jautomata.rationals.converters.algorithms.LayoutAlgorithm#work()
+	 * @see rationals.converters.algorithms.LayoutAlgorithm#work()
 	 */
 	public void work() {
 	}
@@ -45,7 +44,7 @@ public final class NullLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	/**
 	 * This method always returns true
 	 * 
-	 * @see net.jautomata.rationals.converters.algorithms.LayoutAlgorithm#done()
+	 * @see rationals.converters.algorithms.LayoutAlgorithm#done()
 	 */
 	public boolean done() {
 		return true;

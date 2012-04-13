@@ -1,7 +1,7 @@
-package net.jautomata.rationals.converters;
+package rationals.converters;
 
-import net.jautomata.rationals.Automaton;
-import net.jautomata.rationals.converters.algorithms.LayoutAlgorithm;
+import rationals.Automaton;
+import rationals.converters.algorithms.LayoutAlgorithm;
 
 /**
  * This is the base inteface for all devices used to display automata.

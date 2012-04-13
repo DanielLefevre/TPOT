@@ -1,4 +1,4 @@
-package net.jautomata.rationals.converters.algorithms;
+package rationals.converters.algorithms;
 
 import java.util.Map;
 
@@ -29,8 +29,8 @@ public interface LayoutAlgorithm {
 	 * @param aut rationals.Automaton to display
 	 * @return a Map of states to coords 
 	 */
-	public void layout(net.jautomata.rationals.Automaton aut)
-		throws net.jautomata.rationals.converters.ConverterException;
+	public void layout(rationals.Automaton aut)
+		throws rationals.converters.ConverterException;
 
 	/**
 	 * Method called by clients to ask the algorithm to perform

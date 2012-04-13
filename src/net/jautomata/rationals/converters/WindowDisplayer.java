@@ -1,11 +1,10 @@
-package net.jautomata.rationals.converters;
+package rationals.converters;
 
 import java.awt.Graphics2D;
 import java.util.Map;
 
-import net.jautomata.rationals.Automaton;
-import net.jautomata.rationals.converters.algorithms.LayoutAlgorithm;
-
+import rationals.Automaton;
+import rationals.converters.algorithms.LayoutAlgorithm;
 
 /**
  * This class is used to display an Automaton in a graphic
@@ -22,21 +21,21 @@ public class WindowDisplayer implements GraphicsDisplayer {
 	private LayoutAlgorithm algorithm;
 		
 	/**
-	 * @see net.jautomata.rationals.converters.GraphicsDisplayer#redraw(Graphics2D)
+	 * @see rationals.converters.GraphicsDisplayer#redraw(Graphics2D)
 	 */
 	public void draw(Graphics2D gs) {
 		Map m = algorithm.getState();
 	}
 
 	/**
-	 * @see net.jautomata.rationals.converters.Displayer#setAutomaton(Automaton)
+	 * @see rationals.converters.Displayer#setAutomaton(Automaton)
 	 */
 	public void setAutomaton(Automaton a) throws ConverterException {
 		automata = a;		
 	}
 
 	/**
-	 * @see net.jautomata.rationals.converters.Displayer#display()
+	 * @see rationals.converters.Displayer#display()
 	 */
 	public void display() throws ConverterException {
 	}

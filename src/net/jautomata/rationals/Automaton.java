@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Set;
 
 import net.jautomata.rationals.transformations.TransformationsToolBox;
-
 import ca.polymtl.crac.tpot.scheduler.Scheduler;
 
 

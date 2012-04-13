@@ -1,17 +1,16 @@
-package net.jautomata.rationals.converters;
+package rationals.converters;
 
 import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import net.jautomata.rationals.Automaton;
-import net.jautomata.rationals.State;
-import net.jautomata.rationals.Transition;
-import net.jautomata.rationals.converters.algorithms.Coord;
-import net.jautomata.rationals.converters.algorithms.LayoutAlgorithm;
-import net.jautomata.rationals.converters.algorithms.SimulatedAnnealing;
-
+import rationals.Automaton;
+import rationals.State;
+import rationals.Transition;
+import rationals.converters.algorithms.Coord;
+import rationals.converters.algorithms.LayoutAlgorithm;
+import rationals.converters.algorithms.SimulatedAnnealing;
 
 /**
  * This Displayer subclass produces a postscript file from an
@@ -480,7 +479,7 @@ public class PSDisplayer implements StreamDisplayer {
 	}
 
 	public void setAlgorithm(
-		net.jautomata.rationals.converters.algorithms.LayoutAlgorithm algo) {
+		rationals.converters.algorithms.LayoutAlgorithm algo) {
 		this.algo = algo;
 	}
 

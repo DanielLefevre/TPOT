@@ -1,10 +1,9 @@
-package net.jautomata.rationals.converters;
+package rationals.converters;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
-import net.jautomata.rationals.Automaton;
-
+import rationals.Automaton;
 
 public class XamdDisplayer implements Displayer {
 
@@ -28,7 +27,7 @@ public class XamdDisplayer implements Displayer {
 	}
 
 	public void setAlgorithm(
-		net.jautomata.rationals.converters.algorithms.LayoutAlgorithm algo) {
+		rationals.converters.algorithms.LayoutAlgorithm algo) {
 	}
 
 }

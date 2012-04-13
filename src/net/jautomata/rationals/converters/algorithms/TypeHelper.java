@@ -1,4 +1,4 @@
-package net.jautomata.rationals.converters.algorithms;
+package rationals.converters.algorithms;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;

@@ -1,4 +1,4 @@
-package net.jautomata.rationals.converters;
+package rationals.converters;
 
 
 /**

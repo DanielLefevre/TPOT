@@ -1,13 +1,12 @@
-package net.jautomata.rationals.converters.algorithms;
+package rationals.converters.algorithms;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import net.jautomata.rationals.State;
-import net.jautomata.rationals.Transition;
-
+import rationals.State;
+import rationals.Transition;
 
 /**
  * Implementation of simulated annealing for graph drawing<p>
@@ -52,7 +51,7 @@ public class SimulatedAnnealing extends AbstractLayoutAlgorithm {
 	private Set transitions;
 
 	/** automaton to display */
-	private net.jautomata.rationals.Automaton automata;
+	private rationals.Automaton automata;
 
 	/////////////////////////////////////////////////////:
 	// CONSTRUCTORS
@@ -127,8 +126,8 @@ public class SimulatedAnnealing extends AbstractLayoutAlgorithm {
 	 *
 	 * @param aut an Automaton object
 	 */
-	public void layout(net.jautomata.rationals.Automaton aut)
-		throws net.jautomata.rationals.converters.ConverterException {
+	public void layout(rationals.Automaton aut)
+		throws rationals.converters.ConverterException {
 		automata = aut;
 		transitions = aut.delta();
 		// initialise 

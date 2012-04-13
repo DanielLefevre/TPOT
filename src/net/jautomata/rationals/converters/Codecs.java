@@ -33,7 +33,7 @@
  * Created on 29 mars 2005
  *
  */
-package net.jautomata.rationals.converters;
+package rationals.converters;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,6 +63,13 @@ public abstract class Codecs {
             autof = Class.forName("rationals.converters.JAutoCodec");
             registerEncoder("auto",autof);
             registerDecoder("auto",autof);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try{        
+            Class xmlf =Class.forName("rationals.converters.SCXMLCodec");
+            registerEncoder("scxml",xmlf);
+            registerDecoder("scxml",xmlf);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

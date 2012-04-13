@@ -1,11 +1,10 @@
-package net.jautomata.rationals.converters.algorithms;
+package rationals.converters.algorithms;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import net.jautomata.rationals.Automaton;
-import net.jautomata.rationals.converters.ConverterException;
-
+import rationals.Automaton;
+import rationals.converters.ConverterException;
 
 /**
  * Base class for algorithms. Implements tweak method for 
@@ -92,33 +91,33 @@ public abstract class AbstractLayoutAlgorithm implements LayoutAlgorithm {
 	}
 
 	/**
-	 * @see net.jautomata.rationals.converters.algorithms.LayoutAlgorithm#done()
+	 * @see rationals.converters.algorithms.LayoutAlgorithm#done()
 	 */
 	public boolean done() {
 		return false;
 	}
 
 	/**
-	 * @see net.jautomata.rationals.converters.algorithms.LayoutAlgorithm#layout(Automaton)
+	 * @see rationals.converters.algorithms.LayoutAlgorithm#layout(Automaton)
 	 */
 	public void layout(Automaton aut) throws ConverterException {
 	}
 
 	/**
-	 * @see net.jautomata.rationals.converters.algorithms.LayoutAlgorithm#state()
+	 * @see rationals.converters.algorithms.LayoutAlgorithm#state()
 	 */
 	public Map getState() {
 		return statesCoord;
 	}
 
 	/**
-	 * @see net.jautomata.rationals.converters.algorithms.LayoutAlgorithm#work()
+	 * @see rationals.converters.algorithms.LayoutAlgorithm#work()
 	 */
 	public void work() {
 	}
 
 	/**
-	 * @see net.jautomata.rationals.converters.algorithms.LayoutAlgorithm#setState(Map)
+	 * @see rationals.converters.algorithms.LayoutAlgorithm#setState(Map)
 	 */
 	public void setState(Map m) {
 		statesCoord = m;

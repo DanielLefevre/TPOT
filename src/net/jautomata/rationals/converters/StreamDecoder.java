@@ -33,13 +33,12 @@
  * Created on 29 mars 2005
  *
  */
-package net.jautomata.rationals.converters;
+package rationals.converters;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import net.jautomata.rationals.Automaton;
-
+import rationals.Automaton;
 
 /**
  * An interface for constructing an Automaton from a given stream.
