@@ -1,9 +1,11 @@
 package ca.polymtl.crac.tpot.model;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.IOException;
 import java.util.logging.Level;
+
+import ca.polymtl.crac.tpot.model.Opacity.IncorrectDataException;
+import ca.polymtl.crac.tpot.model.io.AutoParser;
+import ca.polymtl.crac.tpot.model.io.RegParser;
 
 /**
  * Extends a Model, with basic functionnalities.
@@ -12,10 +14,13 @@ import java.util.logging.Level;
 public class BasicModel extends Model {
 
     /**
-     * Default constructor.
+     * Constructor.
+     * @param fileIn
+     *            the name of the model to find the names of the files (+
+     *            ".auto", and + ".reg")
      */
-    public BasicModel() {
-        super();
+    public BasicModel(final String fileIn) {
+        super(fileIn);
     }
 
     /*
@@ -23,22 +28,24 @@ public class BasicModel extends Model {
      * @see computingopacity.Model#buildModel(java.lang.String)
      */
     @Override
-    public final void buildModel(final String file)
-            throws FileNotFoundException {
+    public final void buildModel() throws IncorrectDataException, IOException {
+        LOGGER.log(Level.INFO, "Building model : " + this.getFile() + ".");
 
-        this.setFile(file);
-        LOGGER.log(Level.INFO, "Building model : " + file + " ...");
+        // Parses auto file.
+        AutoParser autoParser = new AutoParser(this.getFile() + ".auto");
+        autoParser.parseFile();
 
-        InputStream autoStream = new FileInputStream(file + ".auto");
-        InputStream regStream = new FileInputStream(file + ".reg");
+        // Parses reg file.
+        RegParser regParser = new RegParser(this.getFile() + ".reg");
+        regParser.parseFile();
 
-        // Reads automaton.
-        this.setOpacity(new Opacity(autoStream, regStream));
+        // Creates the opacity.
+        this.setOpacity(new Opacity(autoParser.getParsedAutomaton(), regParser
+                .getParsedObservations(), regParser.getParsedPhi()));
 
         // Validates the datas.
         this.getOpacity().validateData();
 
-        Model.LOGGER.log(Level.INFO,
-                "Construction du modele terminée avec succes");
+        Model.LOGGER.log(Level.INFO, "Model building finished successfully.");
     }
 }

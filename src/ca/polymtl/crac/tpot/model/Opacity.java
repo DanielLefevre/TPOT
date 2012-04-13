@@ -1,10 +1,5 @@
 package ca.polymtl.crac.tpot.model;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,9 +12,6 @@ import net.jautomata.rationals.Automaton;
 import net.jautomata.rationals.PSymbol;
 import net.jautomata.rationals.State;
 import net.jautomata.rationals.Transition;
-import net.jautomata.rationals.converters.ConverterException;
-import net.jautomata.rationals.converters.Expression;
-import net.jautomata.rationals.converters.JAutoCodec;
 import net.jautomata.rationals.properties.binarytests.BinaryTest;
 import net.jautomata.rationals.properties.binarytests.Inclusion;
 import net.jautomata.rationals.properties.unarytests.IsEmpty;
@@ -28,73 +20,65 @@ import net.jautomata.rationals.transformations.Intersection;
 import net.jautomata.rationals.transformations.SynchronizationProduct;
 import net.jautomata.rationals.transformations.UnProb;
 import net.jautomata.rationals.transformations.Union;
-
 import Jama.Matrix;
 
+/**
+ * @author Olivier Bachard, Daniel Lefevre
+ */
 public class Opacity {
 
+    /**
+     * The automaton.
+     */
     private Automaton automaton;
-    private List<Automaton> obs = new ArrayList<>();
+    /**
+     * The list of observations.
+     */
+    private List<Automaton> observations = new ArrayList<>();
+    /**
+     * The predicate.
+     */
     private Automaton phi;
+    /**
+     * The value of the initial entropy.
+     */
     private double initialEntropy = -1;
+    /**
+     * The value of the remaining entropy.
+     */
     private double remainingEntropy = -1;
+    /**
+     * The value of the mutual information.
+     */
     private double mutualInformation = -1;
+    /**
+     * The value of the LPO.
+     */
     private double lpo = -1;
+    /**
+     * The value of the RPO.
+     */
     private double rpo = -1;
+    /**
+     * The value of the VPO.
+     */
     private double vpo = -1;
 
     /**
-     * Reads the input stream, and builds this automaton. Uses JAutoCodec.
-     * @param is
-     *            the input stream
-     * @throws IOException
-     *             if an io error occured
+     * Creates the opacity, with an automaton, a list of observations, and the
+     * predicate.
+     * @param automatonIn
+     *            the automaton
+     * @param observationsIn
+     *            the list of observations
+     * @param phiIn
+     *            the predicate
      */
-    public final void readAutomaton(final InputStream is) throws IOException {
-        this.automaton = new JAutoCodec().input(is);
-    }
-
-    public final void readObsAndPredicate(final InputStream is)
-            throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-
-        // Reading all the observation classes (as automata)
-        String line = reader.readLine();
-        while (!(line = reader.readLine()).equals("]")) {
-            line = line.trim();
-            try {
-                this.obs.add(Expression.fromString(line));
-            } catch (ConverterException ex) {
-                Model.LOGGER.log(Level.SEVERE, null, ex);
-            }
-        }
-
-        // Reading the predicate
-        line = reader.readLine();
-        line = reader.readLine();
-
-        try {
-            this.phi = Expression.fromString(line);
-        } catch (ConverterException ex) {
-            Model.LOGGER.log(Level.SEVERE, null, ex);
-        }
-    }
-
-    /**
-     * Default constructor.
-     */
-    public Opacity() {
-    }
-
-    public Opacity(final InputStream probabilisticAutomaton,
-            final InputStream observablesAndPredicate) {
-        this();
-        try {
-            this.readAutomaton(probabilisticAutomaton);
-            this.readObsAndPredicate(observablesAndPredicate);
-        } catch (IOException ex) {
-            Model.LOGGER.log(Level.SEVERE, null, ex);
-        }
+    public Opacity(final Automaton automatonIn,
+            final List<Automaton> observationsIn, final Automaton phiIn) {
+        this.automaton = automatonIn;
+        this.observations = observationsIn;
+        this.phi = phiIn;
     }
 
     /**
@@ -182,8 +166,8 @@ public class Opacity {
 
         // first, we compute the denominator (the sum)
         // sum ( P(O=o) / P(1_\phi = 0 | O = o) )
-        for (int i = 0; i < this.obs.size(); ++i) {
-            Automaton observable = this.obs.get(i);
+        for (int i = 0; i < this.observations.size(); ++i) {
+            Automaton observable = this.observations.get(i);
 
             double pObs = computeProbability(synchronisation.transform(
                     this.automaton, observable));
@@ -229,7 +213,7 @@ public class Opacity {
         Automaton phiComplement = complement.transform(this.phi);
 
         double opacity = 0;
-        for (Automaton o : this.obs) {
+        for (Automaton o : this.observations) {
             if (inclusion.test(o, this.phi) || inclusion.test(o, phiComplement)) {
                 opacity += computeProbability(synchronisation.transform(
                         this.automaton, o));
@@ -250,7 +234,7 @@ public class Opacity {
         SynchronizationProduct synchronisation = new SynchronizationProduct();
 
         double opacity = 0;
-        for (Automaton o : this.obs) {
+        for (Automaton o : this.observations) {
             if (inclusion.test(o, this.phi)) {
                 opacity += computeProbability(synchronisation.transform(
                         this.automaton, o));
@@ -293,8 +277,8 @@ public class Opacity {
         // second we need the remaining entropy = H(1_\phi | O)
         this.remainingEntropy = 0;
         // H(Phi|O) = - Sum ( P ( i , o) * log ( P (i , o) )
-        for (int i = 0; i < this.obs.size(); ++i) {
-            Automaton observable = this.obs.get(i);
+        for (int i = 0; i < this.observations.size(); ++i) {
+            Automaton observable = this.observations.get(i);
 
             double pObs = computeProbability(synchronisation.transform(
                     this.automaton, observable));
@@ -350,8 +334,8 @@ public class Opacity {
         // sum ( P(O=o)log(1-V(1_\phi | O = o)))
         // where V(1_\phi | O = o) = max(P(1_\phi = 0 | O = o); P(1_\phi = 0 | O
         // = o))
-        for (int i = 0; i < this.obs.size(); ++i) {
-            Automaton observable = this.obs.get(i);
+        for (int i = 0; i < this.observations.size(); ++i) {
+            Automaton observable = this.observations.get(i);
 
             double pObs = computeProbability(synchronisation.transform(
                     this.automaton, observable));
@@ -415,7 +399,7 @@ public class Opacity {
      * @return the observer
      */
     public final List<Automaton> getObs() {
-        return this.obs;
+        return this.observations;
     }
 
     /**
@@ -474,7 +458,7 @@ public class Opacity {
      *            the new observer
      */
     public final void setObs(final List<Automaton> obsIn) {
-        this.obs = obsIn;
+        this.observations = obsIn;
     }
 
     /**
@@ -486,76 +470,76 @@ public class Opacity {
         this.phi = phiIn;
     }
 
-    public final void validateData() throws InvalidParameterException {
-        // Makes sure that no attribute is null.
-        Model.LOGGER.log(Level.INFO, "... checking if null");
-
+    public final void validateData() throws IncorrectDataException {
+        // Makes sure all attributes are not null.
         if (this.automaton == null) {
-            throw new InvalidParameterException("System automaton is null.");
+            throw new IncorrectDataException("System automaton is null.");
         }
         if (this.phi == null) {
-            throw new InvalidParameterException("Predicate automaton is null.");
+            throw new IncorrectDataException("Predicate automaton is null.");
         }
-        if (this.obs == null) {
-            throw new InvalidParameterException("No observable defined.");
+        if (this.observations == null) {
+            throw new IncorrectDataException("No observable defined.");
         }
-        for (int i = 0; i < this.obs.size(); ++i) {
-            if (this.obs.get(i) == null) {
-                throw new InvalidParameterException("Observable " + i
+        for (int i = 0; i < this.observations.size(); ++i) {
+            if (this.observations.get(i) == null) {
+                throw new IncorrectDataException("Observable " + i
                         + " is null.");
             }
         }
 
-        Model.LOGGER.log(Level.INFO, "...checked.");
-
         Inclusion inclusion = new Inclusion();
         Automaton a = new UnProb().transform(this.automaton);
 
-        Model.LOGGER.log(Level.INFO, "Checking inclusion ...");
         // Tests if the union of observables equals the automaton.
         Automaton allObs = new Automaton();
         Union union = new Union();
-        for (Automaton o : this.obs) {
+        for (Automaton o : this.observations) {
             allObs = union.transform(allObs, o);
         }
 
-        Model.LOGGER.log(Level.INFO, "...checked.");
-
-        Model.LOGGER.log(Level.INFO, "Checking observables ...");
-
         if (!inclusion.test(a, allObs) || !inclusion.test(allObs, a)) {
-            throw new InvalidParameterException(
+            throw new IncorrectDataException(
                     "The union of observables should equal the automaton.");
         }
 
-        Model.LOGGER.log(Level.INFO, "...checked.");
-
-        Model.LOGGER.log(Level.INFO, "Checking predicate ...");
-
         // we check if the probabilistic automaton includes the predicate
         if (!inclusion.test(this.phi, a)) {
-            throw new InvalidParameterException(
+            throw new IncorrectDataException(
                     "The automaton doesn't include the predicate.");
         }
 
-        Model.LOGGER.log(Level.INFO, "...checked.");
-
-        Model.LOGGER.log(Level.INFO,
-                "Checking collision between observables ...");
-
         // checking if observation classes colide
         Intersection intersection = new Intersection();
-        IsEmpty isEmpty = new IsEmpty();
-        for (int i = 0; i < this.obs.size(); ++i) {
-            for (int j = i + 1; j < this.obs.size(); ++j) {
-                if (!isEmpty.test(intersection.transform(this.obs.get(j),
-                        this.obs.get(i)))) {
-                    throw new InvalidParameterException(
+        for (int i = 0; i < this.observations.size(); ++i) {
+            for (int j = i + 1; j < this.observations.size(); ++j) {
+                if (!IsEmpty.test(intersection.transform(
+                        this.observations.get(j), this.observations.get(i)))) {
+                    throw new IncorrectDataException(
                             "Collision between observables " + i + " and " + j);
                 }
             }
         }
+    }
 
-        Model.LOGGER.log(Level.INFO, "...checked.");
+    /**
+     * Implements an exception used in the validation of the data.
+     * @author Daniel Lefevre
+     */
+    public class IncorrectDataException extends Exception {
+
+        /**
+         * Serial version UID.
+         */
+        private static final long serialVersionUID = -5269556630169873750L;
+
+        /**
+         * Constructor.
+         * @param s
+         *            the explanation of the error
+         */
+        public IncorrectDataException(final String s) {
+            super(s);
+        }
     }
 }

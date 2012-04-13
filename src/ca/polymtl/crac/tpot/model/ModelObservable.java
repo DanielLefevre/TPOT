@@ -1,5 +1,9 @@
 package ca.polymtl.crac.tpot.model;
 
+/**
+ * @author Olivier Bachard, Daniel Lefevre
+ *
+ */
 public interface ModelObservable {
 
     public void addObserver(ModelObserver obs);

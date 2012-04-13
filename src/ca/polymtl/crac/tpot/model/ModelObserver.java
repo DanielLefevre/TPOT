@@ -2,6 +2,10 @@ package ca.polymtl.crac.tpot.model;
 
 import ca.polymtl.crac.tpot.model.Opacity;
 
+/**
+ * @author Olivier Bachard, Daniel Lefevre
+ *
+ */
 public interface ModelObserver {
 
     public void displayLpo(double lpoMin, double lpoMax);

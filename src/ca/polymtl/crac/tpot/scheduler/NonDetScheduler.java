@@ -14,9 +14,6 @@ import net.jautomata.rationals.State;
 
 import ca.polymtl.crac.tpot.model.Opacity;
 
-
-
-
 public class NonDetScheduler {
 
     List<Opacity> opacities;
@@ -33,62 +30,60 @@ public class NonDetScheduler {
 
     public final void computeOpacities(final Automaton auto,
             final String regFile) throws IOException {
-        List<Automaton> subAutos = auto.scheduleNonDet();
-        System.out.println("nbre d'auto: " + subAutos.size());
-
-        for (Automaton automaton : subAutos) {
-            System.out.println("A = " + automaton.delta().toString());
-            System.out.println("Q = " + automaton.states().toString());
-            System.out.println("I = " + automaton.initials().toString());
-            System.out.println("T = " + automaton.terminals().toString()
-                    + "\n\n");
-
-            for (State state : automaton.states()) {
-                System.out.println("trans from: " + automaton.delta(state));
-            }
-
-            Opacity op = new Opacity();
-            op.setAutomaton(automaton);
-
-            // Acquisition du fichier contenant les observations et le prédicat
-            InputStream is1 = null;
-            try {
-                is1 = new FileInputStream("input/" + regFile + ".reg");
-            } catch (FileNotFoundException e) {
-                System.err.println("Cannot open " + regFile + " for reading");
-                System.exit(1);
-            }
-
-            // Construit les observations et le prédicat
-            op.readObsAndPredicate(is1);
-
-            // TODO : change that thing !
-            try {
-                op.validateData();
-
-                System.out.println("Obs: \n" + op.getObs().toString());
-                System.out.println("Phi: \nb" + op.getPhi().toString());
-                System.out.println("Auto: \nb" + automaton.toString());
-
-                System.out.println("The Lpo of the system is : "
-                        + op.computeLpo());
-                System.out.println("The Rpo of the system is : "
-                        + op.computeRpo());
-                System.out.println("Initial entropy :    "
-                        + op.getInitialEntropy());
-                System.out.println("Remaining entropy :  "
-                        + op.getRemainingEntropy());
-                System.out.println("Mutual information : "
-                        + op.getMutualInformation());
-                System.out.println("The Vpo of the system is : "
-                        + op.computeVpo());
-
-                this.opacities.add(op);
-            } catch (Exception ex) {
-                Logger.getLogger(NonDetScheduler.class.getName()).log(
-                        Level.SEVERE, null, ex);
-            }
-        }
+        // List<Automaton> subAutos = auto.scheduleNonDet();
+        // System.out.println("nbre d'auto: " + subAutos.size());
+        //
+        // for (Automaton automaton : subAutos) {
+        // System.out.println("A = " + automaton.delta().toString());
+        // System.out.println("Q = " + automaton.states().toString());
+        // System.out.println("I = " + automaton.initials().toString());
+        // System.out.println("T = " + automaton.terminals().toString()
+        // + "\n\n");
+        //
+        // for (State state : automaton.states()) {
+        // System.out.println("trans from: " + automaton.delta(state));
+        // }
+        //
+        // // Acquisition du fichier contenant les observations et le prédicat
+        // InputStream is1 = null;
+        // try {
+        // is1 = new FileInputStream("input/" + regFile + ".reg");
+        // } catch (FileNotFoundException e) {
+        // System.err.println("Cannot open " + regFile + " for reading");
+        // System.exit(1);
+        // }
+        //
+        // // Construit les observations et le prédicat
+        // // Opacity op = new Opacity(automaton);
+        // // op.readObsAndPredicate(is1);
+        //
+        // // TODO : change that thing !
+        // try {
+        // op.validateData();
+        //
+        // System.out.println("Obs: \n" + op.getObs().toString());
+        // System.out.println("Phi: \nb" + op.getPhi().toString());
+        // System.out.println("Auto: \nb" + automaton.toString());
+        //
+        // System.out.println("The Lpo of the system is : "
+        // + op.computeLpo());
+        // System.out.println("The Rpo of the system is : "
+        // + op.computeRpo());
+        // System.out.println("Initial entropy :    "
+        // + op.getInitialEntropy());
+        // System.out.println("Remaining entropy :  "
+        // + op.getRemainingEntropy());
+        // System.out.println("Mutual information : "
+        // + op.getMutualInformation());
+        // System.out.println("The Vpo of the system is : "
+        // + op.computeVpo());
+        //
+        // this.opacities.add(op);
+        // } catch (Exception ex) {
+        // Logger.getLogger(NonDetScheduler.class.getName()).log(
+        // Level.SEVERE, null, ex);
+        // }
+        // }
     }
 
     public final double getMaxLpo() {

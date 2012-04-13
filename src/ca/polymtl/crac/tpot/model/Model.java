@@ -1,12 +1,16 @@
 package ca.polymtl.crac.tpot.model;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import ca.polymtl.crac.tpot.model.Opacity.IncorrectDataException;
 import ca.polymtl.crac.tpot.mtbdd.Mtbdd;
 
+/**
+ * @author Olivier Bachard, Daniel Lefevre
+ */
 public abstract class Model implements ModelObservable {
 
     /**
@@ -28,9 +32,13 @@ public abstract class Model implements ModelObservable {
     public static final Logger LOGGER = Logger.getLogger(Model.class.getName());
 
     /**
-     * Private constructor.
+     * Constructor.
+     * @param fileIn
+     *            the name of the model to find the names of the files (+
+     *            ".auto", and + ".reg")
      */
-    public Model() {
+    public Model(final String fileIn) {
+        this.file = fileIn;
     }
 
     /*
@@ -42,7 +50,15 @@ public abstract class Model implements ModelObservable {
         this.observers.add(obs);
     }
 
-    public abstract void buildModel(String fileIn) throws FileNotFoundException;
+    /**
+     * Builds this model, by reading files and building the opacity class.
+     * @throws IOException
+     *             if an io error occured
+     * @throws IncorrectDataException
+     *             if the data is incorrect
+     */
+    public abstract void buildModel() throws IOException,
+            IncorrectDataException;
 
     /**
      * Computes the LPO.
@@ -165,10 +181,6 @@ public abstract class Model implements ModelObservable {
         this.opacity = opacityIn;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see computingopacity.ModelObservable#updateMinMaxOpacities(double[])
-     */
     @Override
     public final void updateMinMaxOpacities(final double[] opacities) {
         for (ModelObserver o : this.observers) {
@@ -176,10 +188,6 @@ public abstract class Model implements ModelObservable {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see computingopacity.ModelObservable#updateObserver()
-     */
     @Override
     public final void updateObserver() {
         for (ModelObserver o : this.observers) {
@@ -187,10 +195,6 @@ public abstract class Model implements ModelObservable {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see computingopacity.ModelObservable#updateObserverLpo()
-     */
     @Override
     public final void updateObserverLpo() {
         for (ModelObserver o : this.observers) {
@@ -198,10 +202,6 @@ public abstract class Model implements ModelObservable {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see computingopacity.ModelObservable#updateObserverRpo()
-     */
     @Override
     public final void updateObserverRpo() {
         for (ModelObserver o : this.observers) {
@@ -209,10 +209,6 @@ public abstract class Model implements ModelObservable {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see computingopacity.ModelObservable#updateObserverVpo()
-     */
     @Override
     public final void updateObserverVpo() {
         for (ModelObserver o : this.observers) {

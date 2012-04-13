@@ -12,9 +12,6 @@ import net.jautomata.rationals.transformations.Complement;
 
 import ca.polymtl.crac.tpot.model.Opacity;
 
-
-
-
 /**
  * @author Olivier Bachard
  */
@@ -239,7 +236,6 @@ public class Mtbdd {
                     .println("--> Size of LinkedList<MtbddTransition> is zero");
             return null;
         }
-
     }
 
     /**
@@ -264,7 +260,6 @@ public class Mtbdd {
                     .println("--> Size of LinkedList<MtbddTransition> is zero");
             return null;
         }
-
     }
 
     /**
@@ -297,13 +292,12 @@ public class Mtbdd {
             // implement the newly created transition
             piTransitions.getLast().buildMtbddTransition(t, xVars, yVars, true);
         }
-
         return piTransitions;
     }
 
     /**
      * Build boolean transitions from transitions of the automaton in BDD case
-     * (no probability)
+     * (no probability).
      * @param delta
      *            the set of transitions from the automaton
      * @param xVars
@@ -332,15 +326,16 @@ public class Mtbdd {
     }
 
     /**
-     * Compute the liberal opacity symbolically
+     * Compute the liberal opacity symbolically.
      * @param opacity
      *            the opacity object representing the problem to solve
+     * @return TODO
      */
     public static double computeLpo(final Opacity opacity) {
         // intialisation of the manager
         Mtbdd.Nat_manager_init();
 
-        // Build the Mtbdd representing Pi
+        // Build the Mtbdd representing Pi<
         Mtbdd piUnprob = new Mtbdd(opacity.getAutomaton(), false);
 
         // ------------------------------------------------------//
@@ -349,15 +344,15 @@ public class Mtbdd {
 
         // Variables needed for the observation classes
 
-        List<MtbddTransition> piAoTransitions = new LinkedList<>();			// Pi||Ao
+        List<MtbddTransition> piAoTransitions = new LinkedList<>();         // Pi||Ao
         // transitions
-        List<MtbddTransition> piAoPhiTransitions = new LinkedList<>();			// (Pi||Ao)||Phi
+        List<MtbddTransition> piAoPhiTransitions = new LinkedList<>();      // (Pi||Ao)||Phi
         // transitions
-        List<MtbddTransition> piAoPhiCompTransitions = new LinkedList<>();		// (Pi||Ao)||PhiComp
+        List<MtbddTransition> piAoPhiCompTransitions = new LinkedList<>();    // (Pi||Ao)||PhiComp
         // transitions
 
-        MtbddNode cubeWithPhi;  		// the mtbddnode representing the cube for phi
-        MtbddNode cubeWithPhiComp;		// the mtbddnode representing the cube for
+        MtbddNode cubeWithPhi;     // the mtbddnode representing the cube for phi
+        MtbddNode cubeWithPhiComp;     // the mtbddnode representing the cube for
         // phi complement
 
         // The value of liberal opacity of the automaton
@@ -925,7 +920,7 @@ public class Mtbdd {
      * @param yVars
      * @param nbrVars
      */
-    public final static void createBooleanVariables(
+    public static final void createBooleanVariables(
             final MtbddNodesArray xVars, final MtbddNodesArray yVars,
             final int nbrVars) {
         xVars.getNodes().clear();
@@ -953,7 +948,7 @@ public class Mtbdd {
      *            the list of transitions of the automaton
      * @return the list of labels for this automaton in a linkedlist
      */
-    public final static List<Object> getLabels(final Set<Transition> delta) {
+    public static final List<Object> getLabels(final Set<Transition> delta) {
         List<Object> labels = new LinkedList<>();
 
         Iterator<Transition> it = delta.iterator();
